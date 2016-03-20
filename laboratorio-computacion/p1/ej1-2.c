@@ -3,15 +3,15 @@
 int main() {
 	
 	printf ("==============================================================\n");
-	printf ("= Pasos para freir un huevo \n");
+	printf ("= Pasos para realizar una llamada \n");
 	printf ("==============================================================\n");
-	printf ("- Tomar una sarten \n");
-	printf ("- Cololar un poco de aceite en la misma y dejar unos segundos \n");
-	printf ("hasta que se caliente. \n");
-	printf ("- Quebrar el huevo y verter el contenido en la sarten. \n");
-	printf ("- Dejar unos minutos hasta obtener la coccion deseada. \n");
-	printf ("- Depositar en un recipiente. \n");
-	printf ("- Agregar sal a gusto y listo. \n");
+	printf (">> Tomar el celular \n");
+	printf (">> Desbloquear pantalla si tuviese la pantalla bloqueda. \n");
+	printf (">> Digitar el numero en caso de que no se lo tenga agendado. \n");
+	printf (">> En caso de tenerlo agendado buscar el contacto. \n");
+	printf (">> Si el contacto agendado tiene mas de un numero, seleccionar \n");
+	printf (">> el numero adecuado. \n");
+	printf (">> Iniciar llamada. \n");
 	printf ("==============================================================\n");
 	return 0;
 }
