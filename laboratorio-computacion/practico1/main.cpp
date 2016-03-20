@@ -7,9 +7,8 @@ int main () {
 	char car;
 	
 	printf ("Hoy es lunes \n");
-	printf ("Arcangel ");
-	printf ("Andres ");
-	printf ("Artigue \n");
+	printf ("Alumno: Arcangel Andres Artigue \n");
+	
 	printf ("==============================\n");
 	printf ("Ingrese un valor:");
 	scanf ("%i",&p);
@@ -24,9 +23,11 @@ int main () {
 	printf ("El valor de la suma es: %i \n",t);
 	s = t*0.5;
 	printf ("Porcentaje: %f \n",s);
-	printf ("Ingrese un caracter: ");
+	
+	printf ("Ingrese un caracter:");
 	scanf ("%c", &car);
-	printf ("El valor es: %c \n",car);
+	printf ("El valor es: %c \n", car);
+	
 	
 	return 0;
 }
