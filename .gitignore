@@ -1,3 +1,5 @@
 *.zpr
 *.o
 *.bin
+.DS_Store
+.localized
