@@ -30,6 +30,14 @@ public class Main {
 		System.out.println(numero+" + "+otroNumero);
 		numero.add(otroNumero);
 		System.out.println(numero);
+		
+		numero = null;
+		otroNumero =  null;
+		
+		numero = new Racional(7,2);
+		System.out.println(numero);
+		numero.inv();
+		System.out.println(numero);
 
 	}
 

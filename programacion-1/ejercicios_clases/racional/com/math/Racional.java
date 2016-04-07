@@ -15,6 +15,12 @@ public class Racional {
 		this.num = auxDen/this.den*this.num + auxDen/elOtro.getDen()*elOtro.getNum();
 		this.den = auxDen;
 	}
+	
+	public void inv(){
+		int auxDen = this.getDen();
+		this.den = this.num;
+		this.num = auxDen;
+	}
 
 	private int obtenerMCM(int n1, int n2){
 		// >,<,!=,==
