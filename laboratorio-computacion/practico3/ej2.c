@@ -1,51 +1,68 @@
 #include <stdio.h>
-#define tam 5
+#define tam 10
 
 int main() {
 	
 	int lista[tam];
-	int mult3[1];
-	int otros[1];
+	int mult3[tam];
+	int otros[tam];
 	int i;
 	int j = 0;
 	int k = 0;
 	
-	int coso[1];
-	
-	for (i = 0; i<10; i++){
-		coso[i] = i;
-	}
-	
-	for (i = 0; i<10; i++){
-		printf ("%d - ",coso[i]);
-	}
-	
-	return 0;
-	
-	/* Se carga el arreglo */
+	/* Se solicita el ingreso de elementos */
 	for (i=0; i < tam; i++){
 		printf("Elemento[%d]:",i);
 		scanf("%d",&lista[i]);
-	}	
+	}
+	
+	/* Se inicializan las posiciones del arreglo en cero */
+	for (i=0; i < tam; i++) {
+		mult3[i] = 0;
+		otros[i] = 0; 
+	}
 	
 	for (i=0; i < tam; i++){
+		/* En caso de que el numero sea multiplo de 3, se lo agrega al array */
 		if (lista[i] % 3 == 0){
 			mult3[j] = lista[i];
 			j++;
 		} else {
+			/* En caso de que no lo sea, se lo agrega al otro */
 			otros[k] = lista[i];
 			k++;
 		}
 	}
 	
-	printf("Multiplos de 3\n");
-	for(i=0; i <= j;i++){
-		printf("%d\n",mult3[i]);		
+	printf ("<< Contenido del arreglo original >>\n");	
+	/* Se muestra el contenido del arreglo */	
+	for (i = 0; i < tam; i++){
+		if (i != tam-1) {
+			printf("%d, ",lista[i]);
+		} else {
+			printf("%d ",lista[i]);
+		}
 	}
 	
-	printf("Otros\n");
-	for(i=0; i <= k;i++){
-		printf("%d\n",otros[i]);		
+	printf ("\n<< Multiplos de tres >>\n");	
+	/* Se muestra el contenido del arreglo */	
+	for (i = 0; i < tam; i++){
+		if (i != tam-1) {
+			printf("%d, ",mult3[i]);
+		} else {
+			printf("%d ",mult3[i]);
+		}
+	}
+	
+	printf ("\n<< No multiplos de tres >>\n");
+	
+	/* Se muestra el contenido del arreglo */
+	for (i = 0; i < tam; i++){
+		if (i != tam-1) {
+			printf("%d, ",otros[i]);
+		} else {
+			printf("%d ",otros[i]);
+		}
 	}
 	
 	return 0;
