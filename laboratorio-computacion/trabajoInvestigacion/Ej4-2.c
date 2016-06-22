@@ -1,7 +1,12 @@
+/* 
+* Dado el siguiente programa, se pide:
+* i. Correr el programa y corregir los errores
+* ii. Agregar al programa, mostrar el contenido del archivo cargado 
+* previamente mediante el siguiente formato
+*/
 #include <stdio.h>
-#include <conio.h>
 #include <string.h>
-#define a "c:\\arch.dat"
+#define a "arch.dat"
 
 struct registro {
 	int cliente;
@@ -32,6 +37,6 @@ int main(){
 	} while(seguir=='n');
 
 	fclose(arch);
-
-	getch();
+	
+	return 0;
 }
