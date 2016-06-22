@@ -98,14 +98,3 @@ void clrscr(){
 		printf("\n");
 	}
 }
-
-/*int cantRegistros(){*/
-/*	int cant;*/
-/*	FILE *arch;*/
-/*	struct registro reg;*/
-	
-/*	arch = fopen(a,"rb");*/
-	
-/*	cant = fread(&reg,sizeof(reg),1,arch);*/
-/*	return cant;*/
-/*}*/
