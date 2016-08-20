@@ -1,6 +1,9 @@
 /**
+*
 * El siguiente programa imprime los números impares hasta el 100 y muestra cuantos impares hay
-* @author Artigue Arcangel Andres
+*
+* @author Artigue Arcangel Andres <artigue_arcangel@hotmail.com>
+*
 */
 public class Ejercicio05{
 	public static void main(String[] args) {

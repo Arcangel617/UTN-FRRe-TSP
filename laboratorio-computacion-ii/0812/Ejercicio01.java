@@ -1,6 +1,9 @@
 /**
+*
 * El siguiente programa imprime los números del 0 al 100
-* @author Artigue Arcangel Andres
+*
+* @author Artigue Arcangel Andres <artigue_arcangel@hotmail.com>
+*
 */
 public class Ejercicio01 {
 	public static void main(String[] args) {

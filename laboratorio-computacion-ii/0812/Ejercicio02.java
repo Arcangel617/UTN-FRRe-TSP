@@ -1,6 +1,9 @@
 /**
+*
 * El siguiente programa imprime los números del 100 al 0 en orden decreciente
-* @author Artigue Arcangel Andres
+*
+* @author Artigue Arcangel Andres <artigue_arcangel@hotmail.com>
+*
 */
 public class Ejercicio02{
 	public static void main(String[] args) {

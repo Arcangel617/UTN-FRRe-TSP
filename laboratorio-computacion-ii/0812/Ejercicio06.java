@@ -1,6 +1,9 @@
 /**
+*
 * El siguiente programa imprime los números impares desde el 100 hasta la unidad y calcula su suma
-* @author Artigue Arcangel Andres
+*
+* @author Artigue Arcangel Andres <artigue_arcangel@hotmail.com>
+*
 */
 public class Ejercicio06{
 	public static void main(String[] args) {
