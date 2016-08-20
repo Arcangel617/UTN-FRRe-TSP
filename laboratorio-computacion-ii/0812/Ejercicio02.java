@@ -5,11 +5,12 @@
 public class Ejercicio02{
 	public static void main(String[] args) {
 		for (int i = 100; i >= 0;i--) {
-			if ((i % 10 == 0)) {
-				System.out.print("\n"+i);
+			if (i == 51) {
+				System.out.println(i);
 			} else {
-				System.out.print(" "+i);
+				System.out.print(i + " ");
 			}
 		}
+		System.out.println();
 	}
 }

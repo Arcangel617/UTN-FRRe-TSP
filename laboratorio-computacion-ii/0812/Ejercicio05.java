@@ -5,12 +5,15 @@
 public class Ejercicio05{
 	public static void main(String[] args) {
 		int impares = 0;
+		
+		System.out.print("Impares: ");
+
 		for (int i = 0; i <= 100 ; i++ ) {
 			if ((i % 2 != 0) && i > 0) {
 				impares++;
-				System.out.println(i);
+				System.out.print(i + " ");
 			}
 		}
-		System.out.println("Total impares: "+impares);
+		System.out.println("\nTotal: "+impares);
 	}
 }

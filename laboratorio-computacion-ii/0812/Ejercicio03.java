@@ -7,10 +7,9 @@ public class Ejercicio03{
 		int suma = 0;
 
 		for (int i = 0;i < 100 ;i++ ) {
-			// System.out.println(suma + " + " + i);
 			suma = suma + i;
 		}
 
-		System.out.println(suma);
+		System.out.println("Suma: " + suma);
 	}
 }
