@@ -1,7 +1,8 @@
 /**
 *
-* Imprimir y sumar los números desde el cero hasta un número determinado, 
-* excepto los múltiplos de 5 imprimir el valor de la suma de los múltiplos de 5.
+* El siguiente programa imprime y suma los números desde el cero hasta un 
+* número determinado (excepto los múltiplos de 5) e imprime el valor de 
+* la suma de los múltiplos de 5.
 *
 * @author Artigue Arcangel Andres <artigue_arcangel@hotmail.com>
 *
