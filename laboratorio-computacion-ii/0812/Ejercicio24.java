@@ -1,6 +1,7 @@
 /**
 *
-* Introducir una serie de números. Decir si esos números son mayores o menores de 10.
+* Dada una serie de numeros, el siguiente programa evalúa si los numeros
+* ingresados son mayores o menores a 10.
 *
 * @author Artigue Arcangel Andres <artigue_arcangel@hotmail.com>
 *
