@@ -17,14 +17,14 @@ public class Ejercicio07 {
 
 			int nro = s.nextInt();
 			if (nro < 1) {
-				throw new MenoraUnoException("No hay números naturales en el intervalo ("+ nro +";1)");
+				throw new LowerThanException("No hay números naturales en el intervalo ("+ nro +";1)");
 			}
 
 			for (int i = 1; i <= nro ; i++) {
 				System.out.print(i + " ");
 			}
 
-		} catch (MenoraUnoException e) {
+		} catch (LowerThanException e) {
 			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			System.out.println("El valor ingresado no es un número entero");

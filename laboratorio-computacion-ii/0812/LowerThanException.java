@@ -3,8 +3,8 @@
 * @author Artigue Arcangel Andres <artigue_arcangel@hotmail.com>
 *
 */
-public class MenoraUnoException extends Exception {
-	public MenoraUnoException(String msg){
+public class LowerThanException extends Exception {
+	public LowerThanException(String msg){
 		super(msg);
 	}
 }
