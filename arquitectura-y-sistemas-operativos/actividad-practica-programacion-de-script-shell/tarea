@@ -1,0 +1,11 @@
+Resolver los siguientes problemas utilizando programación de scripts para el shell Bash:
+
+1) Escribir un script que verifique cada 15 segundos si existe en el directorio actual un archivo "prueba.txt". Mientras no exista el archivo deberá mostrar por salida estandar el mensaje "archivo no encontrado", Si el archivo existe deberá mostrar su contenido y finalizar la ejecución del script.
+
+2) Escribir un ­script que realice un listado recursivo del directorio /etc, y almacene la salida en un archivo miEtc.dir y guardar el archivo en un directorio que se haya ingresado previamente como argumento.
+
+3) Escribir un script que muestre por salida estandar todos los directorios y subdirectorios recursivamente de un directorio ingresado por entrada estandar (no argumento), el script deberá verificar si el valor ingresado es precisamente un directorio y existe.(Puede aceptar rutas relativas y absolutas)
+
+4)­ Escribir un script que busque de manera recursiva en el directorio /etc todos los archivos con extensión .conf y los copie a un directorio pasado como argumento. Si el directorio pasado como argumento no existe, este deberá ser creado.
+
+5­ Ejecutar el siguiente comando: date +%Y%m%d y observar el resultado. Transformar el ejercicio anterior en una función para copiar todos los archivos con extensión .conf del directorio actual al directorio backupConf/fecha, siendo fecha el valor del comando anteriormente ejecutado.
