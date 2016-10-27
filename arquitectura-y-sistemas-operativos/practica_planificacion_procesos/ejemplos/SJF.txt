@@ -1,0 +1,24 @@
+Kernel Quantum=500ms Scheduler=SJF
+Process Proc1 Comes=1000ms Duration=1000ms Prio=1
+Event Type=CPU Occurs=0ms Takes=250ms
+Event Type=I/O Occurs=250ms Takes=50ms
+Event Type=CPU Occurs=300ms Takes=650ms
+Event Type=Terminate Occurs=950ms
+Process Proc2 Comes=500ms Duration=4500ms Prio=2
+Event Type=CPU Occurs=0ms Takes=1000ms
+Event Type=I/O Occurs=1000ms Takes=2000ms
+Event Type=CPU Occurs=3000ms Takes=1500ms
+Event Type=Terminate Occurs=4500ms
+Process Proc3 Comes=650ms Duration=2500ms Prio=3
+Event Type=CPU Occurs=0ms Takes=1000ms
+Event Type=I/O Occurs=1000ms Takes=1500ms
+Event Type=Terminate Occurs=2500ms
+Process Proc4 Comes=1000ms Duration=3000ms Prio=4
+Event Type=I/O Occurs=0ms Takes=1500ms
+Event Type=CPU Occurs=1500ms Takes=1500ms
+Event Type=Terminate Occurs=3000ms
+Process Proc5 Comes=1500ms Duration=2000ms Prio=2
+Event Type=CPU Occurs=0ms Takes=500ms
+Event Type=I/O Occurs=500ms Takes=1000ms
+Event Type=CPU Occurs=1500ms Takes=450ms
+Event Type=Terminate Occurs=1950ms
