@@ -1,25 +1,40 @@
 #!/bin/bash
+
+#####################################################################################
+# Authors: Artigue Arcangel Andres <https://github.com/Arcangel617>                 #
+#          Salinas Andres Sebastian                                                 #
+#####################################################################################
+
 #######################################################################################
 # Escribir un ­script que realice un listado recursivo del directorio /etc, y almacene 
 # la salida en un archivo miEtc.dir y guardar el archivo en un directorio que se haya
 # ingresado previamente como argumento.
 #######################################################################################
 
-# Primero se pregunta si el script no recibió parámetros.
-# En caso de que no haber parámetros creará el archivo de 
-# salida en el directorio raiz de script.
-# if [[ $# -ne 0 ]]; then
-# 	dir_name=$(pwd)
-# 	ls -R /etc >> $dir_name/miEtc.dir 
-# else
-# 	echo Not implemented yet.
-# 	# if [[ -a $1 ]]; then
-# 	# 	ls -R /etc >> 
-# 	# else
-# 	# 	echo El directorio no existe.
-# 	# fi
-# 	# ls -R /etc 
-# fi
-suma=$`($#)`+3
-echo $suma
-
+#######################################################################################
+# Se verifica que el script reciba al menos un parámetro.                             #
+#######################################################################################
+if [[ $#<1 ]]; then
+	echo "$0: Especifique un directorio."
+else
+	###################################################################################
+	# Se verifica que el directorio pasado como parámetro existe                      #
+	###################################################################################
+	if [[ -d $1 ]]; then
+		###############################################################################
+		# Si el archivo miEtc.dir existe, se lo borra y se crea uno nuevo             #
+		###############################################################################
+		if [[ -f miEtc.dir ]]; then
+			rm miEtc.dir
+			ls -R /etc >> $1/miEtc.dir
+		else
+			###########################################################################
+			# Se lista recursivamente /etc y se guarda la salida en el archivo        #
+			# miEtc.dir                                                               #
+			###########################################################################
+			ls -R /etc >> $1/miEtc.dir 
+		fi
+	else
+		echo "El directorio $1 no existe"
+	fi
+fi
