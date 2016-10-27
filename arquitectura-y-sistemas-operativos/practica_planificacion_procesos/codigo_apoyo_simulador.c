@@ -282,78 +282,74 @@ struct process* dequeue(int type)
 	return retval;
 }
 
- void terminate(int type)
- {
- struct process* from;
- if(type == IOtype)
- from = IO;
- else
- from = CPU;
- statistics[statindex].name = from->name;
- printf("TERMITATOR\t name[%s]\t", statistics[statindex].name);
- statistics[statindex].responsetime = from->responsetime;
- printf("resp[%d]\n", statistics[statindex].responsetime);
- if(from->event != NULL) free(from->event);
- struct process* going = dequeue(type);
- free(going);
- statindex++;
- printf("ENDOF TERMINATION\n");
- }
+void terminate(int type)
+{
+	struct process* from;
+	if(type == IOtype)
+		from = IO;
+	else
+		from = CPU;
+	statistics[statindex].name = from->name;
+	printf("TERMITATOR\t name[%s]\t", statistics[statindex].name);
+	statistics[statindex].responsetime = from->responsetime;
+	printf("resp[%d]\n", statistics[statindex].responsetime);
+	if(from->event != NULL) free(from->event);
+	struct process* going = dequeue(type);
+	free(going);
+	statindex++;
+	printf("ENDOF TERMINATION\n");
+}
 
- void readfile()
- {
- while(1)
- {
- printf("Enter Processes file name: ");
- char buffer[50];
- scanf("%s", buffer);
- FILE* fd = fopen(buffer, "rt");
- if(fd == NULL)
- {//file not found
- printf("file not found, try again.\n");
- }
- else
- {// read file
- printf("file is found, starting processing\n");
- // PARSING ! :(
+void readfile()
+{
+	while(1)
+	{
+		printf("Enter Processes file name: ");
+		char buffer[50];
+		scanf("%s", buffer);
+		FILE* fd = fopen(buffer, "rt");
+		if(fd == NULL)
+		{
+			//file not found
+			printf("file not found, try again.\n");
+		}
+		else
+		{
+			// read file
+			printf("file is found, starting processing\n");
+			// PARSING ! :(
+			char* line = read_line(fd);
+			char* tmp = strstr(line, "Quantum");
+			tmp += 8;
+			quantum = atoi(tmp);
+			tmp = strstr(tmp, "Scheduler");
+			tmp += 10;
+			if(strcmp(tmp, "RROB") == 0)
+				algo = RROB;
+			else if(strcmp(tmp, "PRIO") == 0)
+				algo = PRIO;
+			else if(strcmp(tmp, "FCFS") == 0)
+				algo = FCFS;
+			else if(strcmp(tmp, "LJF") == 0)
+				algo = LJF;
+			else if(strcmp(tmp, "SJF") == 0)
+				algo = SJF;
+			free(line);
 
- char* line = read_line(fd);
- char* tmp = strstr(line, "Quantum");
- tmp += 8;
- quantum = atoi(tmp);
- tmp = strstr(tmp, "Scheduler");
- tmp += 10;
- if(strcmp(tmp, "RROB") == 0)
- algo = RROB;
- else if(strcmp(tmp, "PRIO") == 0)
- algo = PRIO;
- else if(strcmp(tmp, "FCFS") == 0)
- algo = FCFS;
- else if(strcmp(tmp, "LJF") == 0)
- algo = LJF;
- else if(strcmp(tmp, "SJF") == 0)
- algo = SJF;
- free(line);
+			printf("Quantum[%d] ", quantum);
+			printf("Scheduler[%d]\n", algo);
 
- printf("Quantum[%d] ", quantum);
- printf("Scheduler[%d]\n", algo);
+			line = read_line(fd);
+			while(line != NULL)
+				line = addprocess(line, fd);
 
- line = read_line(fd);
- while(line != NULL)
- line = addprocess(line, fd);
-
- printf("------List of Coming Processes------\n");
- ListProcesses(input);
-
- fclose(fd);
-
- break;
- }
-
- }
-
-
- }
+			printf("------List of Coming Processes------\n");
+			ListProcesses(input);
+			fclose(fd);
+			break;
+		}
+	}
+}
 
  void printout()
  {
