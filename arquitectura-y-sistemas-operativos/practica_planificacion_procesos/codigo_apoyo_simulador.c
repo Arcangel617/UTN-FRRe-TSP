@@ -216,67 +216,71 @@ char* addprocess(char* line, FILE* fd)
 	return line;
 }
 
- void enqueue(struct process* what, int type)
- 	{
- 		if(type == CPUtype && CPU == NULL)
- 		CPU = what;
- 		else if(type == IOtype && IO == NULL)
- 		IO = what;
- 		else
- 	{
- 		struct process* to;
- 		if(type == CPUtype)
- 		to = CPU;
- 	else
- 		to = IO;
- 	while(to->next != NULL)
- 		to = to->next;
- 		to->next = what;
- 	}
- 	}
+void enqueue(struct process* what, int type)
+{
+	if(type == CPUtype && CPU == NULL)
+		CPU = what;
+	else if(type == IOtype && IO == NULL)
+		IO = what;
+	else
+	{
+		struct process* to;
+		if(type == CPUtype)
+			to = CPU;
+		else
+			to = IO;
+		while(to->next != NULL)
+			to = to->next;
+		to->next = what;
+	}
+}
 
- void enqueueByAlgo(struct process* what)
- {
- if(CPU == NULL)
- 	{// CPU is empty
- 		CPU = what;
- 		currentQuantum = quantum;
- 	}
- 	else
- 	{// CPU is not empty
- 	if(CPU->next != NULL)
- 	{// CPU's first element is a process is being processed
- 		struct process* to = CPU;
- 		for(;to->next != NULL; to = to->next)
- 	if( (algo == PRIO && what->prio > to->next->prio) || (algo == LJF && what->duration > to->next->duration) || (algo == SJF && what->duration < to->next->duration) )
- 		break;
- 		what->next = to->next;
- 		to->next = what;
- 	}
- 		else // there is only one process in CPU
- 		CPU->next = what;
- 	}
- 	}
+void enqueueByAlgo(struct process* what)
+{
+	if(CPU == NULL)
+	{
+		// CPU is empty
+		CPU = what;
+		currentQuantum = quantum;
+	}
+	else
+	{
+		// CPU is not empty
+		if(CPU->next != NULL)
+		{
+			// CPU's first element is a process is being processed
+			struct process* to = CPU;
+			for(;to->next != NULL; to = to->next)
+				if( (algo == PRIO && what->prio > to->next->prio) || (algo == LJF && what->duration > to->next->duration) || (algo == SJF && what->duration < to->next->duration) )
+					break;
+				what->next = to->next;
+				to->next = what;
+			}
+			else // there is only one process in CPU
+			CPU->next = what;
+		}
+}
 
- struct process* dequeue(int type)
- 	{
- 		struct process* from;
- 		if(type == IOtype)
- 		from = IO;
- 		else if(type == CPUtype)
- 		from = CPU;
- 	else
- 		from = input;
- 		struct process* retval = from;
- 		if(type == IOtype)
- 		IO = IO->next;
- 		else if(type == CPUtype)
- 		CPU = CPU->next;
- 		else
- 		input = input->next;
- 		retval->next = NULL;
- 		return retval;
- 	}
+struct process* dequeue(int type)
+{
+	struct process* from;
+	if(type == IOtype)
+		from = IO;
+	else if(type == CPUtype)
+		from = CPU;
+	else
+		from = input;
+
+	struct process* retval = from;
+	if(type == IOtype)
+		IO = IO->next;
+	else if(type == CPUtype)
+		CPU = CPU->next;
+	else
+		input = input->next;
+	retval->next = NULL;
+	return retval;
+}
 
  void terminate(int type)
  {
