@@ -351,127 +351,124 @@ void readfile()
 	}
 }
 
- void printout()
- {
- printf("\nCLOCK[%d]\n", clock);
- if((algo==RROB || algo==PRIO))
- {
- printf("CURRENT QUANTUM[%d]\n", currentQuantum);
- printf("CPU:\n");
- }
- ListProcesses(CPU);
- if((algo==RROB || algo==PRIO))
- {
- printf("I/O:\n");
- ListProcesses(IO);
- }
- printf("******************************************************************\n");
- }
+void printout()
+{
+	printf("\nCLOCK[%d]\n", clock);
+	if((algo==RROB || algo==PRIO))
+	{
+		printf("CURRENT QUANTUM[%d]\n", currentQuantum);
+		printf("CPU:\n");
+	}
+	ListProcesses(CPU);
+	if((algo==RROB || algo==PRIO))
+	{
+		printf("I/O:\n");
+		ListProcesses(IO);
+	}
+	printf("******************************************************************\n");
+}
 
 
- int main()
- {
- readfile();
- printf("amount[%d]\n", amount);
- statistics = malloc(amount* sizeof(struct stat));
- statindex = 0;
+int main()
+{
+	readfile();
+	printf("amount[%d]\n", amount);
+	statistics = malloc(amount* sizeof(struct stat));
+	statindex = 0;
 
- while(input != NULL || CPU != NULL || IO != NULL)
- {
- char* BOOL = NULL;
- struct process* temp = CPU;
- for(;temp != NULL; temp = temp->next)
- temp->responsetime++;
- temp = IO;
- for(;temp != NULL; temp = temp->next)
- temp->responsetime++;
+	while(input != NULL || CPU != NULL || IO != NULL)
+	{
+		char* BOOL = NULL;
+		struct process* temp = CPU;
+		for(;temp != NULL; temp = temp->next)
+			temp->responsetime++;
+		temp = IO;
+		for(;temp != NULL; temp = temp->next)
+			temp->responsetime++;
+		//processing CPU
+		if(CPU != NULL)
+		{
+			CPU->termination--;
+			CPU->event->takes--;
+			if(CPU->termination == 0)
+			{
+				terminate(CPUtype);
+				currentQuantum = quantum;
+			}
+			else if(CPU->event->takes == 0)
+			{
+				currentQuantum = quantum;
+				struct event* going = CPU->event;
+				CPU->event = CPU->event->next;
+				free(going);
+				if(CPU->event == NULL)
+					terminate(CPUtype);
+				else if(algo == RROB || algo == PRIO)
+				{
+					BOOL = CPU->name;
+					enqueue(dequeue(CPUtype), IOtype);
+				}
+			}
+			else if(algo == PRIO || algo == RROB)
+			{
+				currentQuantum--;
+				if(currentQuantum == 0)
+				{
+					enqueueByAlgo(dequeue(CPUtype));
+					currentQuantum = quantum;
+				}
+			}
+		}
 
- //processing CPU
- if(CPU != NULL)
- {
- CPU->termination--;
- CPU->event->takes--;
- if(CPU->termination == 0)
- {
- terminate(CPUtype);
- currentQuantum = quantum;
- }
- else if(CPU->event->takes == 0)
- {
- currentQuantum = quantum;
- struct event* going = CPU->event;
- CPU->event = CPU->event->next;
- free(going);
- if(CPU->event == NULL)
- terminate(CPUtype);
- else if(algo == RROB || algo == PRIO)
- {
- BOOL = CPU->name;
- enqueue(dequeue(CPUtype), IOtype);
- }
- }
- else if(algo == PRIO || algo == RROB)
- {
- currentQuantum--;
- if(currentQuantum == 0)
- {
- enqueueByAlgo(dequeue(CPUtype));
- currentQuantum = quantum;
- }
- }
- }
+		//processing IO
+		if(IO != NULL && BOOL != IO->name)
+		{
+			IO->termination--;
+			IO->event->takes--;
+			if(IO->termination == 0)
+				terminate(IOtype);
+			else if(IO->event->takes == 0)
+			{
+				struct event* going = IO->event;
+				IO->event = IO->event->next;
+				free(going);
+				if(IO->event == NULL)
+					terminate(IOtype);
+				else
+					enqueueByAlgo(dequeue(IOtype));
+			}
+		}
 
- //processing IO
- if(IO != NULL && BOOL != IO->name)
- {
- IO->termination--;
- IO->event->takes--;
- if(IO->termination == 0)
- terminate(IOtype);
- else if(IO->event->takes == 0)
- {
- struct event* going = IO->event;
- IO->event = IO->event->next;
- free(going);
- if(IO->event == NULL)
- terminate(IOtype);
- else
- enqueueByAlgo(dequeue(IOtype));
- }
- }
+		// new process is coming
+		while(input != NULL && input->comes == clock)
+		{
+			if(input->event->type == CPUtype)
+				enqueueByAlgo(dequeue(INPUTtype));
+			else
+			{
+				if(algo != RROB && algo != PRIO)
+					enqueueByAlgo(dequeue(INPUTtype));
+				else
+					enqueue(dequeue(INPUTtype), IOtype);
+			}
+		}
 
- // new process is coming
- while(input != NULL && input->comes == clock)
- {
- if(input->event->type == CPUtype)
- enqueueByAlgo(dequeue(INPUTtype));
- else
- {
- if(algo != RROB && algo != PRIO)
- enqueueByAlgo(dequeue(INPUTtype));
- else
- enqueue(dequeue(INPUTtype), IOtype);
- }
- }
+		if(clock % 50 == 0)
+		{
+			printout();
+			getchar();
+		}
 
+		clock++;
+	}
 
+	printf("STATISTICS\n");
+	int i;
+	for(i=0;i<amount;i++)
+		printf("name[%s]\tresp[%d]\n", statistics[i].name, statistics[i].responsetime);
 
- if(clock % 50 == 0)
- {
- printout();
- getchar();
- }
-
- clock++;
- }
-
- printf("STATISTICS\n");
- int i;
- for(i=0;i<amount;i++)
- printf("name[%s]\tresp[%d]\n", statistics[i].name, statistics[i].responsetime);
-
- return 0;
- }
+	return 0;
+}
 
 /////////////////////////////Contenido de Ejemplo del Archivo de entrada///////////////////////////////////////////////
  
