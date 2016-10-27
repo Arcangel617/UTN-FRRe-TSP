@@ -70,154 +70,151 @@ void ListProcesses(struct process* tmp)
 	}
 }
 
- /* ---------------------------------------------------------------------------
- * read_line - read a line from [fp], return its contents in a
- * dynamically allocated buffer, not including the line ending.
- *
- * Handles CR, CRLF and LF line endings, as well as NOEOL correctly. If
- * already at EOF, returns NULL. Will err() or errx() in case of
- * unexpected file error or running out of memory.
- */
- static char *read_line(FILE *fp)
-	 {
-		 char *buf;
-		 long startpos, endpos;
-		 size_t linelen, numread;
-		 int c;
+/* ---------------------------------------------------------------------------
+* read_line - read a line from [fp], return its contents in a
+* dynamically allocated buffer, not including the line ending.
+*
+* Handles CR, CRLF and LF line endings, as well as NOEOL correctly. If
+* already at EOF, returns NULL. Will err() or errx() in case of
+* unexpected file error or running out of memory.
+*/
+static char *read_line(FILE *fp)
+{
+	char *buf;
+	long startpos, endpos;
+	size_t linelen, numread;
+	int c;
 
- startpos = ftell(fp);
+	startpos = ftell(fp);
 
- /* find end of line (or file) */
- linelen = 0;
- for (;;)
-	 {
-		 c = fgetc(fp);
-		 if (c == EOF || c == (int)'\n' || c == (int)'\r') break;
-		 linelen++;
-	 }
+	/* find end of line (or file) */
+	linelen = 0;
+	for (;;)
+	{
+		c = fgetc(fp);
+		if (c == EOF || c == (int)'\n' || c == (int)'\r') break;
+		linelen++;
+	}
 
- /* return NULL on EOF (and empty line) */
- if (linelen == 0 && c == EOF) return NULL;
+	/* return NULL on EOF (and empty line) */
+	if (linelen == 0 && c == EOF) return NULL;
 
- endpos = ftell(fp);
+	endpos = ftell(fp);
 
- /* skip CRLF */
- if (c == (int)'\r' && fgetc(fp) == (int)'\n') endpos++;
+	/* skip CRLF */
+	if (c == (int)'\r' && fgetc(fp) == (int)'\n') endpos++;
 
- buf = (char*)malloc(linelen + 1);
+	buf = (char*)malloc(linelen + 1);
 
- /* rewind file to where the line stared and load the line */
- fseek(fp, startpos, SEEK_SET);
- numread = fread(buf, 1, linelen, fp);
+	/* rewind file to where the line stared and load the line */
+	fseek(fp, startpos, SEEK_SET);
+	numread = fread(buf, 1, linelen, fp);
 
- /* terminate buffer */
- buf[linelen] = 0;
+	/* terminate buffer */
+	buf[linelen] = 0;
 
- /* advance file pointer over the endline */
- fseek(fp, endpos, SEEK_SET);
+	/* advance file pointer over the endline */
+	fseek(fp, endpos, SEEK_SET);
 
-	 return buf;
-	 }
+	return buf;
+}
 	
-		 char* addprocess(char* line, FILE* fd)
-	 {
-		 char* startpos = line;
-		 struct process* newproc = malloc(sizeof(struct process));
-		 newproc->next = NULL;
-		 newproc->event = NULL;
-		 newproc->termination = -1;
-		 newproc->responsetime = 0;
-		 char* pos = strstr(line, "Process");
-		 pos += 8;
-		 line = strstr(pos, "Comes");
-		 newproc->name = malloc(line-pos-1);
-		 memcpy(newproc->name, pos, line-pos);
-		 newproc->name[line-pos-1] = '\0';
+char* addprocess(char* line, FILE* fd)
+{
+	char* startpos = line;
+	struct process* newproc = malloc(sizeof(struct process));
+	newproc->next = NULL;
+	newproc->event = NULL;
+	newproc->termination = -1;
+	newproc->responsetime = 0;
+	char* pos = strstr(line, "Process");
+	pos += 8;
+	line = strstr(pos, "Comes");
+	newproc->name = malloc(line-pos-1);
+	memcpy(newproc->name, pos, line-pos);
+	newproc->name[line-pos-1] = '\0';
 
-		 printf("name[%s]", newproc->name);
+	printf("name[%s]", newproc->name);
+	line += 6;
+	newproc->comes = atoi(line);
 
-		 line += 6;
-		 newproc->comes = atoi(line);
-	
-		 printf("comes[%d]", newproc->comes);
+	printf("comes[%d]", newproc->comes);
 
-		 line = strstr(line, "Duration");
-		 line += 9;
-		 newproc->duration = atoi(line);
+	line = strstr(line, "Duration");
+	line += 9;
+	newproc->duration = atoi(line);
 
-		 printf("dur[%d]", newproc->duration);
-	
-		 line = strstr(line, "Prio");
-		 line += 5;
-		 newproc->prio = atoi(line);
-	
-		 printf("prio[%d]\n", newproc->prio);
+	printf("dur[%d]", newproc->duration);
 
-		 free(startpos);
+	line = strstr(line, "Prio");
+	line += 5;
+	newproc->prio = atoi(line);
 
+	printf("prio[%d]\n", newproc->prio);
 
- while(1)
-	 {
-		 line = read_line(fd);
-		 if(line == NULL || strstr(line, "Event") == NULL)
-		 break;
+	free(startpos);
 
-		 startpos = line;
-		 if(strstr(line, "Terminate") == NULL)
-	 {
-	 	struct event* newevent = malloc(sizeof(struct event));
- 		newevent->next = NULL;
-		 if(newproc->event == NULL)
-		 newproc->event = newevent;
-	 else
-	 {
-		 struct event* temp = newproc->event;
-		 while(temp->next != NULL) temp = temp->next;
-		 temp->next = newevent;
-	 }
- line = strstr(line, "Type");
- line += 5;
- if(strstr(line, "CPU") == line)
-	 newevent->type = CPUtype;
- else
-	 newevent->type = IOtype;
- line = strstr(line, "Takes");
- line += 6;
- newevent->takes = atoi(line);
+	while(1)
+	{
+		line = read_line(fd);
+		if(line == NULL || strstr(line, "Event") == NULL)
+			break;
+		startpos = line;
+		if(strstr(line, "Terminate") == NULL)
+		{
+			struct event* newevent = malloc(sizeof(struct event));
+			newevent->next = NULL;
+			if(newproc->event == NULL)
+				newproc->event = newevent;
+			else
+			{
+				struct event* temp = newproc->event;
+				while(temp->next != NULL) temp = temp->next;
+				temp->next = newevent;
+			}
+			line = strstr(line, "Type");
+			line += 5;
+			if(strstr(line, "CPU") == line)
+				newevent->type = CPUtype;
+			else
+				newevent->type = IOtype;
+			line = strstr(line, "Takes");
+			line += 6;
+			newevent->takes = atoi(line);
 
- printf("\ttype[%d] takes[%d]\n", newevent->type, newevent->takes);
-	 }
-		 else
-	 {
-		 pos = strstr(line, "Occurs");
-		 pos += 7;
-		 newproc->termination = atoi(pos);
-		 printf("\tterm[%d]\n", newproc->termination);
-	 }
- 		free(startpos);
- }
- amount++;
- if(input == NULL)
- input = newproc;
- else if(newproc->comes < input->comes)
- 	{
- 		newproc->next = input;
- 		input = newproc;
- 	}
- 	else
- 	{
- 		struct process* temp = input;
- 		while(temp->next != NULL)
- 	{
- 		if(temp->next->comes > newproc->comes)
- 		break;
- 		temp = temp->next;
- 	}
- 		newproc->next = temp->next;
- 		temp->next = newproc;
- 	}
- 		return line;
- 	}
+			printf("\ttype[%d] takes[%d]\n", newevent->type, newevent->takes);
+		}
+		else
+		{
+			pos = strstr(line, "Occurs");
+			pos += 7;
+			newproc->termination = atoi(pos);
+			printf("\tterm[%d]\n", newproc->termination);
+		}
+		free(startpos);
+	}
+	amount++;
+	if(input == NULL)
+		input = newproc;
+	else if(newproc->comes < input->comes)
+	{
+		newproc->next = input;
+		input = newproc;
+	}
+	else
+	{
+		struct process* temp = input;
+		while(temp->next != NULL)
+		{
+			if(temp->next->comes > newproc->comes)
+				break;
+			temp = temp->next;
+		}
+		newproc->next = temp->next;
+		temp->next = newproc;
+	}
+	return line;
+}
 
  void enqueue(struct process* what, int type)
  	{
